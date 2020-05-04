@@ -2,29 +2,12 @@ version: '2'
 
 services:
   frontend:
-    build: tax-form-generator-web
+    image: r.cfcr.io/jbojcic1/tax-form-generator:docker-2
     ports:
-      - "4200:4200"
-
+      - "80:80"
+    depends_on:
+      - backend
   backend:
-    image: backend
-    build: tax-form-generator-api
-    ports:
-      - "5000:5000"
-    depends_on:
-      - database
-    links:
-      - database
-
-  database:
-    image: postgres:9.6.12
-    ports:
-      - "5432:5432"
-
+    image: r.cfcr.io/jbojcic1/tax-form-generator-api:docker-2
   migrations:
-    image: backend
-    entrypoint: ["dotnet", "ef", "database", "update"]
-    depends_on:
-      - database
-    links:
-      - database
+    image: r.cfcr.io/jbojcic1/tax-form-generator-api-migrations:docker-2

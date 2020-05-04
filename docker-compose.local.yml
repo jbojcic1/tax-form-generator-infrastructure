@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  backend:
+    depends_on:
+      - database
+  database:
+    image: postgres:9.6.12
+  migrations:
+    depends_on:
+      - database
