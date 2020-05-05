@@ -7,7 +7,31 @@ services:
       - "80:80"
     depends_on:
       - backend
+    links:
+      - "backend"    
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: frontend
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: ecs-terraform-free-tier
   backend:
     image: r.cfcr.io/jbojcic1/tax-form-generator-api:docker-2
+    hostname: "backend"
+    ports:
+    - "5000:5000"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: backend
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: ecs-terraform-free-tier
   migrations:
-    image: r.cfcr.io/jbojcic1/tax-form-generator-api-migrations:docker-2
+    image: r.cfcr.io/jbojcic1/tax-form-generator-api-migrations:docker-2      
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: migrations
+        awslogs-region: eu-central-1
+        awslogs-stream-prefix: ecs-terraform-free-tier
+
